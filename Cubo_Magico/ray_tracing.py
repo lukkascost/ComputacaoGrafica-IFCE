@@ -59,26 +59,26 @@ class Cubo:
                 """Constructor"""
                 self.objetos = []
                 for i in range(3):
-                        self.objetos.append(quadrado([0,i,0], [1,i,0], [0,i+1,0], [2,i+1,0], (i+0)%6 ))
-                        self.objetos.append(quadrado([1,i,0], [2,i,0], [1,i+1,0], [2,i+1,0], (i+1)%6 ))
-                        self.objetos.append(quadrado([2,i,0], [3,i,0], [2,i+1,0], [3,i+1,0], (i+2)%6 ))        
+                        self.objetos.append(quadrado([0,i,0], [1,i,0], [0,i+1,0], [2,i+1,0], 0 ))
+                        self.objetos.append(quadrado([1,i,0], [2,i,0], [1,i+1,0], [2,i+1,0], 0 ))
+                        self.objetos.append(quadrado([2,i,0], [3,i,0], [2,i+1,0], [3,i+1,0], 0 ))        
         
-                        self.objetos.append(quadrado([0,i,3], [1,i,3], [0,i+1,3], [1,i+1,3], (i+3)%6 ))
-                        self.objetos.append(quadrado([1,i,3], [2,i,3], [1,i+1,3], [2,i+1,3], (i+4)%6 ))
-                        self.objetos.append(quadrado([2,i,3], [3,i,3], [2,i+1,3], [3,i+1,3], (i+5)%6 ))   
+                        self.objetos.append(quadrado([0,i,3], [1,i,3], [0,i+1,3], [1,i+1,3], 1 ))
+                        self.objetos.append(quadrado([1,i,3], [2,i,3], [1,i+1,3], [2,i+1,3], 1 ))
+                        self.objetos.append(quadrado([2,i,3], [3,i,3], [2,i+1,3], [3,i+1,3], 1 ))   
                         
-                        self.objetos.append(quadrado([0,0,i], [1,0,i], [0,0,i+1], [1,0,i+1], (i+6)%6 ))         
-                        self.objetos.append(quadrado([1,0,i], [2,0,i], [1,0,i+1], [2,0,i+1], (i+7)%6 )) 
-                        self.objetos.append(quadrado([2,0,i], [3,0,i], [2,0,i+1], [3,0,i+1], (i+8)%6 )) 
+                        self.objetos.append(quadrado([0,0,i], [1,0,i], [0,0,i+1], [1,0,i+1], 2 ))         
+                        self.objetos.append(quadrado([1,0,i], [2,0,i], [1,0,i+1], [2,0,i+1], 2 )) 
+                        self.objetos.append(quadrado([2,0,i], [3,0,i], [2,0,i+1], [3,0,i+1], 2 )) 
                 
-                        self.objetos.append(quadrado([0,3,i], [1,3,i], [0,3,i+1], [1,3,i+1], (i+9)%6 ))
-                        self.objetos.append(quadrado([1,3,i], [2,3,i], [1,3,i+1], [2,3,i+1], (i+10)%6 ))
-                        self.objetos.append(quadrado([2,3,i], [3,3,i], [2,3,i+1], [3,3,i+1], (i+11)%6 ))   
+                        self.objetos.append(quadrado([0,3,i], [1,3,i], [0,3,i+1], [1,3,i+1], 3 ))
+                        self.objetos.append(quadrado([1,3,i], [2,3,i], [1,3,i+1], [2,3,i+1], 3 ))
+                        self.objetos.append(quadrado([2,3,i], [3,3,i], [2,3,i+1], [3,3,i+1], 3 ))   
                         
-                        self.objetos.append(quadrado([0,0,i], [0,1,i], [0,0,i+1], [0,1,i+1], (i+12)%6 ))         
-                        self.objetos.append(quadrado([0,1,i], [0,2,i], [0,1,i+1], [0,2,i+1], (i+13)%6 ))                
-                        self.objetos.append(quadrado([0,2,i], [0,3,i], [0,2,i+1], [0,3,i+1], (i+14)%6 ))                      
+                        self.objetos.append(quadrado([0,0,i], [0,1,i], [0,0,i+1], [0,1,i+1], 4 ))         
+                        self.objetos.append(quadrado([0,1,i], [0,2,i], [0,1,i+1], [0,2,i+1], 4 ))                
+                        self.objetos.append(quadrado([0,2,i], [0,3,i], [0,2,i+1], [0,3,i+1], 4 ))                      
                 
-                        self.objetos.append(quadrado([3,0,i], [3,1,i], [3,1,i+1], [3,0,i+1], (i+15)%6 ))
-                        self.objetos.append(quadrado([3,1,i], [3,2,i], [3,2,i+1], [3,1,i+1], (i+16)%6 ))
-                        self.objetos.append(quadrado([3,2,i], [3,3,i], [3,3,i+1], [3,2,i+1], (i+17)%6 ))                           
+                        self.objetos.append(quadrado([3,0,i], [3,1,i], [3,1,i+1], [3,0,i+1], 5 ))
+                        self.objetos.append(quadrado([3,1,i], [3,2,i], [3,2,i+1], [3,1,i+1], 5 ))
+                        self.objetos.append(quadrado([3,2,i], [3,3,i], [3,3,i+1], [3,2,i+1], 5 ))                           
