@@ -1,53 +1,63 @@
 from ray_tracing import *
-objetos = []
-for i in range(3):
-        objetos.append(quadrado([0,i,0], [1,i,0], [1,i+1,0], [1,i,0], i%3 ))
-        objetos.append(quadrado([1,i,0], [2,i,0], [2,i+1,0], [2,i,0], (i+1)%3 ))
-        objetos.append(quadrado([2,i,0], [3,i,0], [3,i+1,0], [3,i,0], (i+2)%3 ))        
-
-        objetos.append(quadrado([0,0,i], [1,0,i], [0,0,i+1], [1,0,i+1], (i+1)%3 ))         
-        objetos.append(quadrado([1,0,i], [2,0,i], [1,0,i+1], [2,0,i+1], (i+2)%3 )) 
-        objetos.append(quadrado([2,0,i], [3,0,i], [2,0,i+1], [3,0,i+1], (i+0)%3 )) 
-
-        objetos.append(quadrado([0,0,i], [0,1,i], [0,0,i+1], [0,1,i+1], (i+2)%3 ))         
-        objetos.append(quadrado([0,1,i], [0,2,i], [0,1,i+1], [0,2,i+1], (i+0)%3 ))                
-        objetos.append(quadrado([0,2,i], [0,3,i], [0,2,i+1], [0,3,i+1], (i+1)%3 ))                
+          
         
-        
+cubo = Cubo()
 
-#q10 = quadrado([0,0,0], [0,1,0], [0,0,1], [0,1,1], [0,255,0]);
-
-#objetos  = [q1,q2,q3,q4,q5,q6,q7,q8,q9,q10]
-
-centroCu = centroCubos(objetos)
+centroCu = centroCubos(cubo.objetos)
+print centroCu
 
 nx = 200
 ny = 200
+teta = 0
 
-l = -5
-r = 5
-t = 5 
-b = -5
-e = np.array([3,3,10])
+l = -6
+r = 6
+t = 6 
+b = -6
+e = np.array([3,3,1])
 
 ww = np.round(e/ml.norm_flat(e),4)
 uu , vv = buildBases(ww)
 image = np.zeros((nx,ny,3))
+
+Ruvw = np.matrix([uu,vv,ww])
+
+
+
+#Ruvw = np.linalg.multi_dot([Ruvw,np.matrix([[1,0,0],[0,mt.cos(teta), -mt.sin(teta)],[0, mt.sin(teta),  mt.cos(teta)]]),Ruvw.T])  #Em X
+#for i in cubo.objetos:
+        #i.rotateZ(Ruvw,-10,-10)
+#Ruvw = np.linalg.multi_dot([Ruvw,np.matrix([[mt.cos(teta),0, mt.sin(teta)],[0,1,0],[-mt.sin(teta), 0,  mt.cos(teta)]]),Ruvw.T])  # Em Y
+#for i in cubo.objetos:
+        #i.rotateZ(Ruvw)
+#Ruvw = np.linalg.multi_dot([Ruvw,np.matrix([[mt.cos(teta), -mt.sin(teta), 0],[mt.sin(teta),  mt.cos(teta),0],[0,0,1]]),Ruvw.T])  # Em Z
+#for i in cubo.objetos:
+        #i.rotateZ(Ruvw)
+
 for i in range(nx):
         for j in range(ny):
                 u = l + ((r - l)*(i+1 + 0.5))/nx
-                v = b + ((t - b)*(j+1 + 0.5))/ny          
+                v = b + ((t - b)*(j+1 + 0.5))/ny   
                 origin = np.round(np.add(e, np.add(np.multiply(u,uu) ,np.multiply(v,vv))),4)
                 direction = -ww
-                for ob in range(len(objetos)):
-                        tt = np.round(np.divide(np.dot((objetos[ob].p1 - origin), objetos[ob].normal.T) , np.dot(direction, objetos[ob].normal.T)),4)
+                menorTT = 10000000000
+                indMenor = -1
+                for ob in range(len(cubo.objetos)):
+                        tt = np.round(np.divide(np.dot((cubo.objetos[ob].pontos[1] - origin), cubo.objetos[ob].normal.T) , np.dot(direction, cubo.objetos[ob].normal.T)),4)
                         p = np.round(origin + np.multiply(tt, direction),4)
-                        aiDento = p[0] >= objetos[ob].minX and p[0] <= objetos[ob].maxX and p[1] >= objetos[ob].minY and p[1] <= objetos[ob].maxY and p[2] >= objetos[ob].minZ and p[2] <= objetos[ob].maxZ
-                        if(aiDento):
-                                image[i, j, 0] = objetos[ob].rgb[0]
-                                image[i, j, 1] = objetos[ob].rgb[1]
-                                image[i, j, 2] = objetos[ob].rgb[2]     
-cv2.imwrite("saida.jpg", image) 
+                        
+                        aiDento = p[0] >= cubo.objetos[ob].minX and p[0] <= cubo.objetos[ob].maxX and p[1] >= cubo.objetos[ob].minY and p[1] <= cubo.objetos[ob].maxY and p[2] >= cubo.objetos[ob].minZ and p[2] <= cubo.objetos[ob].maxZ
+                        
+                        if(aiDento and menorTT > tt):
+                                menorTT = tt
+                                indMenor = ob   
+                if(indMenor!=-1):
+                        image[i, j, 0] = cubo.objetos[indMenor].rgb[0]
+                        image[i, j, 1] = cubo.objetos[indMenor].rgb[1]
+                        image[i, j, 2] = cubo.objetos[indMenor].rgb[2]     
+                                
+cv2.imwrite("saida1.jpg", image) 
+print "pronto"
 cv2.imshow("cubo", image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
