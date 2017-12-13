@@ -1,6 +1,22 @@
 from ray_tracing import *
-          
-for k in range(0,361,5):
+
+"""Geraçao das matrizes de Rotaçao"""
+def rotateZ(teta):
+        return np.matrix([[mt.cos(teta), -mt.sin(teta), 0],
+                         [mt.sin(teta),  mt.cos(teta),0],
+                         [0,0,1]])
+def rotateX(teta):
+        return np.matrix([[1,0,0],
+                          [0,mt.cos(teta), -mt.sin(teta)],
+                          [0, mt.sin(teta),  mt.cos(teta)]])
+def rotateY(teta):
+        return np.matrix([[mt.cos(teta),0, mt.sin(teta)],
+                          [0,1,0],
+                          [-mt.sin(teta), 0,  mt.cos(teta)]])
+
+
+for k in range(1):
+        
         cubo = Cubo()
         
         centroCu = centroCubos(cubo.objetos)
@@ -13,44 +29,19 @@ for k in range(0,361,5):
         r = 6
         t = 6 
         b = -6
-        def rotateZ(teta):
-                return np.matrix([[mt.cos(teta), -mt.sin(teta), 0],
-                                 [mt.sin(teta),  mt.cos(teta),0],
-                                 [0,0,1]])
-        def rotateX(teta):
-                return np.matrix([[1,0,0],
-                                  [0,mt.cos(teta), -mt.sin(teta)],
-                                  [0, mt.sin(teta),  mt.cos(teta)]])
-        def rotateY(teta):
-                return np.matrix([[mt.cos(teta), -mt.sin(teta), 0],
-                                  [mt.sin(teta),  mt.cos(teta),0],
-                                  [0,0,1]])
+
         
+        """ Aplica a Rotação em X, Y e Z nos graus informados"""
         e = np.array([1 + 1e-3 ,1 +  1e-3, -1 + 1e-3])
-        e = np.array(rotateX(mt.radians(0)).dot(e))[0,:]
-        e = np.array(rotateY(mt.radians(k)).dot(e))[0,:]
+        e = np.array(rotateX(mt.radians(-20)).dot(e))[0,:]
+        e = np.array(rotateY(mt.radians(0)).dot(e))[0,:]
         e = np.array(rotateZ(mt.radians(0)).dot(e))[0,:]
-        print e, k
         
         ww = np.round(e/ml.norm_flat(e),4)
-        #ww = np.round(centroCu/ml.norm_flat(centroCu),4)
         uu , vv = buildBases(ww)
         image = np.zeros((nx,ny,3))
-        
-        Ruvw = np.matrix([uu,vv,ww])
-        
-        
-        
-        #Ruvw = np.linalg.multi_dot([Ruvw,np.matrix([[1,0,0],[0,mt.cos(teta), -mt.sin(teta)],[0, mt.sin(teta),  mt.cos(teta)]]),Ruvw.T])  #Em X
-        #for i in cubo.objetos:
-                #i.rotateZ(Ruvw,-10,-10)
-        #Ruvw = np.linalg.multi_dot([Ruvw,np.matrix([[mt.cos(teta),0, mt.sin(teta)],[0,1,0],[-mt.sin(teta), 0,  mt.cos(teta)]]),Ruvw.T])  # Em Y
-        #for i in cubo.objetos:
-                #i.rotateZ(Ruvw)
-        #Ruvw = np.linalg.multi_dot([Ruvw,np.matrix([[mt.cos(teta), -mt.sin(teta), 0],[mt.sin(teta),  mt.cos(teta),0],[0,0,1]]),Ruvw.T])  # Em Z
-        #for i in cubo.objetos:
-                #i.rotateZ(Ruvw)
-        
+
+        """ Inicio do Ray-Trace"""
         for i in range(nx):
                 for j in range(ny):
                         u = l + ((r - l)*(i+1 + 0.5))/nx
@@ -73,7 +64,7 @@ for k in range(0,361,5):
                                 image[i, j, 1] = cubo.objetos[indMenor].rgb[1]
                                 image[i, j, 2] = cubo.objetos[indMenor].rgb[2]     
                                         
-        cv2.imwrite("Y/_saidaX{:03d}.jpg".format(k), image) 
+        #cv2.imwrite("Z/_saidaX{:03d}.jpg".format(k), image) 
 print "pronto"
 cv2.imshow("cubo", image)
 cv2.waitKey(0)

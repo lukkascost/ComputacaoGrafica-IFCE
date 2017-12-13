@@ -4,6 +4,8 @@ import cv2
 import math as mt
 
 def centroCubos(objetos):
+        """
+        Calcula o Centro dos cubos no array de objetos        """
         pontos= []
         for i in objetos:
                 pontos.append(i.pontos[1])
@@ -13,7 +15,9 @@ def centroCubos(objetos):
         return np.array(pontos).mean(axis=0)
 #----------------------------------------------------------------------
 def buildBases(w):
-        """"""
+        """
+        Cria os Vetores U e V.
+        """
         t = np.copy(w)
         _, p  = np.abs(w).min(0) ,np.abs(w).argmin(0)
         t[p] = 1
@@ -28,7 +32,9 @@ class quadrado(object):
 
         #----------------------------------------------------------------------
         def __init__(self, p1, p2 ,p3 ,p4 , cor):
-                """Constructor"""
+                """Constructor
+                forma um objeto quadrado com os 4 pontos informados, e com o indice da cor no array de cores de um cubo. (0-5)
+                """
                 cores = [[255,0,0],[0,255,0],[0,0,255],[255,255,255],[255,255,0],[0,255,255]]
                 self.pontos = np.array([[0,0,0], p1,p2,p3,p4])
                 self.centro = np.matrix([p1,p2,p3,p4]).mean(axis=0)
@@ -42,14 +48,6 @@ class quadrado(object):
                 self.maxZ = max([p1[2],p2[2],p3[2],p4[2]])
                 self.minZ = min([p1[2],p2[2],p3[2],p4[2]])              
                 
-        def rotateZ(self,Ruvw, q,f):
-                for i in range(len(self.pontos)):
-                        self.pontos[i] = np.dot(Ruvw,self.pontos[i])
-                        #x = 0
-                        #y = self.pontos[i][0]*mt.sin(q)+ self.pontos[i][1]*mt.cos(q)
-                        #z = self.pontos[i][0]*mt.cos(q)*mt.sin(f)- self.pontos[i][1]*mt.sin(q)*mt.sin(f) + self.pontos[i][2]*mt.cos(f)
-                        #self.pontos[i] = np.array([x,y,z])
-                
 ########################################################################
 class Cubo:
         """"""
@@ -59,9 +57,12 @@ class Cubo:
                 """Constructor"""
                 self.objetos = []
                 for i in range(3):
-                        self.objetos.append(quadrado([0,i,0], [1,i,0], [0,i+1,0], [2,i+1,0], 0 ))
-                        self.objetos.append(quadrado([1,i,0], [2,i,0], [1,i+1,0], [2,i+1,0], 0 ))
-                        self.objetos.append(quadrado([2,i,0], [3,i,0], [2,i+1,0], [3,i+1,0], 0 ))        
+                        """
+                        Criacao dos objetos e quadrados de cada face.
+                        """
+                        self.objetos.append(quadrado([0,i,0], [1,i,0], [0,i+1,0], [2,i+1,0],0 ))
+                        self.objetos.append(quadrado([1,i,0], [2,i,0], [1,i+1,0], [2,i+1,0],0 ))
+                        self.objetos.append(quadrado([2,i,0], [3,i,0], [2,i+1,0], [3,i+1,0],0 ))        
         
                         self.objetos.append(quadrado([0,i,3], [1,i,3], [0,i+1,3], [1,i+1,3], 1 ))
                         self.objetos.append(quadrado([1,i,3], [2,i,3], [1,i+1,3], [2,i+1,3], 1 ))

@@ -5,7 +5,7 @@ gamma = 3.0
 img = cv2.imread("camel.jpg")
 img = img/255.0
 
-imgGamma = np.power(img,1.0/gamma)
+imgGamma = np.power(img,2.0/gamma)
 
 imgGamma = imgGamma*255.0
 imgGamma = imgGamma.astype(np.uint8)
